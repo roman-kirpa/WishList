@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="form-group">
+    <label for="name" class="col-sm-2 control-label">enter URL</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" name="name" placeholder="First & Last Name" value="">
+    </div>
+    <button type="button" onclick="location.href='@Url.Action("GetPage", "Home")'" />
+</div>
