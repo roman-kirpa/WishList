@@ -4,22 +4,37 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Topshelf;
 
 namespace ItemsCheckerService
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            if (Environment.UserInteractive) // debug
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                Service myService = new Service();
+                myService.StartForDebug();
+
+            }
+            else // release
+            {
+                HostFactory.Run(configure =>
+                {
+                    configure.Service<Service>(service =>
+                    {
+                        service.ConstructUsing(s => new Service());
+                        service.WhenStarted(s => s.Start());
+                        service.WhenStopped(s => s.Stop());
+                    });
+                    //Setup Account that window service use to run.  
+                    configure.RunAsLocalSystem();
+                    configure.SetServiceName("UrlCheckService");
+                    configure.SetDisplayName("UrlCheckService");
+                    configure.SetDescription("service for check all urls");
+                });
+            }
         }
     }
 }

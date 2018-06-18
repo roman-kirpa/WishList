@@ -15,7 +15,7 @@ namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
-
+        private PageService pageService = new PageService();
         public ActionResult Index()
         {
             return View();
@@ -23,12 +23,23 @@ namespace Wishlist.Controllers
 
         public ActionResult GetPage(string url)
         {
-           // var url = "https://rozetka.com.ua/apple_iphone_x_64gb_silver/p22726294/";
-            var rozetka = new RozetkaParser(url);
-
-            ViewBag.titleItem = rozetka.GetTitle();
-            ViewBag.price = rozetka.GetCost();
-            return View();
+            try
+            {
+                var validUrl = pageService.ValidUrl(url);
+                if (!validUrl)
+                {
+                    return View("../Home/WrongUrl");
+                }
+                var html = pageService.GetPageHtml(url);
+                var rozetka = new RozetkaParser(html);
+                ViewBag.titleItem = rozetka.GetTitle();
+                ViewBag.price = rozetka.GetCost();
+                return View();
+            }
+            catch(Exception ex)
+            {
+                return View("../Home/WrongUrl");
+            }
         }
 
     }

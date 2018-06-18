@@ -10,14 +10,11 @@ namespace Wishlist.Services
 {
     public class RozetkaParser : IPageParser
     {
-        private string _html;
-        private RESTService rest = new RESTService();
         private CQ htmlObjects;
         // "https://rozetka.com.ua/apple_iphone_x_64gb_silver/p22726294/";
-        public RozetkaParser(string url)
+        public RozetkaParser(string html)
         {
-            this._html = rest.GetPageHtml(url);
-            htmlObjects = CQ.Create(_html);
+            htmlObjects = CQ.Create(html);
         }
 
         public string GetCost()

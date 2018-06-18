@@ -7,8 +7,20 @@ using System.Web;
 
 namespace Wishlist.Services
 {
-    public class RESTService
+    public class PageService
     {
+        public bool ValidUrl(string url)
+        {
+            Uri validatedUri;
+
+            if (Uri.TryCreate(url, UriKind.Absolute, out validatedUri)) //.NET URI validation.
+            {
+                //If true: validatedUri contains a valid Uri. Check for the scheme in addition.
+                return (validatedUri.Scheme == Uri.UriSchemeHttp || validatedUri.Scheme == Uri.UriSchemeHttps);
+            }
+            return false;
+        }
+
         public string GetPageHtml(string url)
         {
             try

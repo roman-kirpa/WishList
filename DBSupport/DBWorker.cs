@@ -22,25 +22,32 @@ namespace DBSupport
             using (_connection)
             {
                 _connection.Open();
-                SqlCommand command = new SqlCommand("dbo.usr_insert", _connection);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 0, "Name"));
-                command.Parameters[0].Value = name;
-                command.ExecuteNonQuery();
+                _command = new SqlCommand("dbo.usr_insert", _connection);
+                _command.CommandType = CommandType.StoredProcedure;
+                _command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 0, "Name"));
+                _command.Parameters[0].Value = name;
+                _command.ExecuteNonQuery();
                 _connection.Close();
             }
         }
-
+        
         public void CheckUser(string name)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateDB() { }
-        public void GetFromDB()
+        public void SetItem(Item item)
         {
-            string sqlExpression = "INSERT INTO Users (Name, Age) VALUES ('Tom', 18)";
+            throw new NotImplementedException();
         }
-        public void DeleteFromDB() { }
+
+        public List<Item> GetItems(string name)
+        {
+            throw new NotImplementedException();
+        }
+       public void DeleteItem(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

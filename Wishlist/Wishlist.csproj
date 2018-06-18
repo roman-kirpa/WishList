@@ -152,13 +152,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Entities\Item.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IPageParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\RESTService.cs" />
-    <Compile Include="Services\RozetkaParser.cs" />
+    <Compile Include="Services\PageService.cs" />
+    <Compile Include="Services\SIteParsers\PromUaPraser.cs" />
+    <Compile Include="Services\SIteParsers\RozetkaParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -197,7 +199,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\GetPage\GetPage.cshtml" />
     <Content Include="Views\Home\GetPage.cshtml" />
     <Content Include="Views\Home\WrongUrl.cshtml" />
   </ItemGroup>
