@@ -5,7 +5,37 @@
 <div class="form-group">
     <label for="name" class="col-sm-2 control-label">enter URL</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="name" name="name" placeholder="First & Last Name" value="">
+        <input style="padding:10px;margin:10px;" type="text" class="test" id="inputForm" name="name" placeholder="" value="" onkeydown="SetToDB(this)" />
     </div>
-    <button type="button" onclick="location.href='@Url.Action("GetPage", "Home")'" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i <= 10; i++)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>test @i</td>
+                    <td>test@i</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+
+<script>
+    function SetToDB(element) {
+        debugger;
+        if (event.key === 'Enter') {
+            var val = element.value;
+            window.location.href = '@Url.Action("GetPage", "Home")'+'?url=' + val;
+        }
+    }
+
+</script>

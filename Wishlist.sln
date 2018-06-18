@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wishlist", "Wishlist\Wishlist.csproj", "{195A0523-F0E2-459E-8B91-6202D65DEBC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSupport", "DBSupport\DBSupport.csproj", "{C961A4D4-EC49-47A0-A0BE-6230E4B91294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsCheckerService", "ItemsCheckerService\ItemsCheckerService.csproj", "{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{195A0523-F0E2-459E-8B91-6202D65DEBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{195A0523-F0E2-459E-8B91-6202D65DEBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{195A0523-F0E2-459E-8B91-6202D65DEBC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C961A4D4-EC49-47A0-A0BE-6230E4B91294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C961A4D4-EC49-47A0-A0BE-6230E4B91294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C961A4D4-EC49-47A0-A0BE-6230E4B91294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C961A4D4-EC49-47A0-A0BE-6230E4B91294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
