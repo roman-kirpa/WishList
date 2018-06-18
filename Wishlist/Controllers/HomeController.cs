@@ -9,7 +9,9 @@ using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Wishlist.Interfaces;
 using Wishlist.Services;
+using Wishlist.Services.SIteParsers;
 
 namespace Wishlist.Controllers
 {
@@ -31,9 +33,9 @@ namespace Wishlist.Controllers
                     return View("../Home/WrongUrl");
                 }
                 var html = pageService.GetPageHtml(url);
-                var rozetka = new RozetkaParser(html);
-                ViewBag.titleItem = rozetka.GetTitle();
-                ViewBag.price = rozetka.GetCost();
+                IPageParser parser = PageParserSetter.GerParser(url, html);
+                ViewBag.titleItem = parser.GetTitle();
+                ViewBag.price = parser.GetCost();
                 return View();
             }
             catch(Exception ex)

@@ -12,13 +12,24 @@ namespace Wishlist.Services
         public bool ValidUrl(string url)
         {
             Uri validatedUri;
-
-            if (Uri.TryCreate(url, UriKind.Absolute, out validatedUri)) //.NET URI validation.
+            bool result = false;
+            if (Uri.TryCreate(url, UriKind.Absolute, out validatedUri))
             {
-                //If true: validatedUri contains a valid Uri. Check for the scheme in addition.
-                return (validatedUri.Scheme == Uri.UriSchemeHttp || validatedUri.Scheme == Uri.UriSchemeHttps);
+                result = (validatedUri.Scheme == Uri.UriSchemeHttp || validatedUri.Scheme == Uri.UriSchemeHttps);
             }
-            return false;
+            else return false;
+           
+            WebRequest request = WebRequest.Create(url);
+            try
+            {
+                request.GetResponse();
+                result = true;
+            }
+            catch 
+            {
+                result = false;
+            }
+            return result;
         }
 
         public string GetPageHtml(string url)
@@ -38,12 +49,12 @@ namespace Wishlist.Services
                     }
                     else
                     {
-                        return "somthing wrong with url";
+                        throw new NotImplementedException();
                     }
             }
             catch(Exception ex)
             {
-                return "somthing wrong with url";
+                throw ex;
             }
                 
         }

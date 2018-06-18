@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wishlist.Interfaces
 {
-    interface IPageParser
+    public interface IPageParser
     {
         string GetCost();
         string GetTitle();

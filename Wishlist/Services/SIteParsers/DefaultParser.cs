@@ -6,7 +6,7 @@ using Wishlist.Interfaces;
 
 namespace Wishlist.Services.SIteParsers
 {
-    public class PromUaPraser : IPageParser
+    public class DefaultParser : IPageParser
     {
         public string GetCost()
         {
