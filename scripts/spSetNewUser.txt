@@ -1,0 +1,16 @@
+CREATE PROCEDURE dbo.spSetNewUser @Name varchar(25)
+AS
+declare @count int;
+select @count = (select count(*) from [dbo].[Users] where Name = @Name);
+if @count >0
+ INSERT INTO [dbo].[Users] ([Name])
+     VALUES (@Name) 
+
+GO
+
+// for use
+
+use WishList
+execute [dbo].[spSetNewUser] 
+@Name = 'petro'
+go

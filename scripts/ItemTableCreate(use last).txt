@@ -1,0 +1,22 @@
+USE [WishList]
+GO
+
+/****** Object:  Table [dbo].[Users]    Script Date: 2018-06-20 10:31:31 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Items](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Title] [nchar](250) NOT NULL,
+	[Url] [nchar](250) NOT NULL,
+	[user_id] [int] NOT NULL FOREIGN KEY REFERENCES Users (Id),
+ CONSTRAINT [PK_Items] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO

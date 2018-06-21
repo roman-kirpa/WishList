@@ -1,0 +1,13 @@
+CREATE PROCEDURE dbo.spSetNewItem @NameUser varchar(25), @Title varchar(250), @Url varchar(250), @DateTime DateTime, @Cost float
+AS
+declare @UserId int;
+set @UserId = (select Id from [dbo].[Users] where Name = @NameUser);
+
+BEGIN TRANSACTION
+   DECLARE @ItemID int;
+   INSERT INTO [dbo].[Items] (Title, Url, user_id) VALUES (@Title, @Url, @UserId);
+   SELECT @ItemID = scope_identity();
+   INSERT INTO [dbo].[Costs] (Cost, DateTime, Item_Id) VALUES (@Cost, @DateTime, @ItemID);
+COMMIT
+
+GO
