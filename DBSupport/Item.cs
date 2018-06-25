@@ -8,9 +8,10 @@ namespace DBSupport
 {
   public  class Item
     {
-        public int Id { get; set; }
+        public string UserName { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
         public decimal Cost { get; set; }
+        public DateTime DateTimeNow { get; set; }
     }
 }

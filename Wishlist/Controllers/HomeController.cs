@@ -2,6 +2,7 @@
 using DBSupport;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,32 +18,21 @@ namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
-        private PageService pageService = new PageService();
+        private DBWorker db;
+        private string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult GetPage(string url)
-        {
-            try
+            db = new DBWorker(connectionString);
+            if (User.Identity.IsAuthenticated)
             {
-                var validUrl = pageService.ValidUrl(url);
-                if (!validUrl)
-                {
-                    return View("../Home/WrongUrl");
-                }
-                var html = pageService.GetPageHtml(url);
-                IPageParser parser = PageParserSetter.GerParser(url, html);
-                ViewBag.titleItem = parser.GetTitle();
-                ViewBag.price = parser.GetCost();
+                db.SetUserIfNotExist(UserIdentityParser.GetLogin(User.Identity));
                 return View();
             }
-            catch(Exception ex)
+            else
             {
-                return View("../Home/WrongUrl");
+                return View("../Home/ErrorWindowsAuthentication");
             }
         }
-
     }
 }

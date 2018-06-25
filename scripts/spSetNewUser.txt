@@ -1,4 +1,4 @@
-CREATE PROCEDURE dbo.spSetNewUser @Name varchar(25)
+CREATE PROCEDURE dbo.spSetUserIfNotExist @Name varchar(25)
 AS
 declare @count int;
 select @count = (select count(*) from [dbo].[Users] where Name = @Name);
@@ -11,6 +11,6 @@ GO
 // for use
 
 use WishList
-execute [dbo].[spSetNewUser] 
+execute [dbo].[spSetUserIfNotExist] 
 @Name = 'petro'
 go
