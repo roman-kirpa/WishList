@@ -10,7 +10,7 @@ using Wishlist.Services.SIteParsers;
 
 namespace Wishlist.Controllers
 {
-    public class SetItemController : Controller
+    public class ItemsController : Controller
     {
         private PageService pageService = new PageService();
         private DBWorker db;
@@ -44,6 +44,14 @@ namespace Wishlist.Controllers
             {
                 return View("../Home/WrongUrl");
             }
+        }
+
+        public ActionResult GetItems(string nameUser)
+        {
+            db = new DBWorker(connectionString);
+            var list = db.GetItems(nameUser);
+            ViewBag.ListItems = list;
+            return View();
         }
     }
 }

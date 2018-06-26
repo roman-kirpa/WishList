@@ -52,7 +52,37 @@ namespace DBSupport
 
         public List<Item> GetItems(string nameUser)
         {
-            throw new NotImplementedException();
+            List<Item> ItemsList = new List<Item>();
+            Item item;
+            using (_connection)
+            {
+                _command = new SqlCommand("dbo.spSelectAllItemsUser", _connection);
+                _command.CommandType = CommandType.StoredProcedure;
+                SqlParameter idParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    SqlDbType = SqlDbType.NVarChar,
+                };
+                _command.Parameters.Add(idParam).Value = nameUser;
+
+                _connection.Open();
+
+                SqlDataReader reader = _command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    item = new Item();
+                    item.Url = reader["Url"].ToString();
+                    item.Title = reader["Title"].ToString();
+                    item.UserName = reader["Name"].ToString();
+                    item.Cost = decimal.Parse(reader["Cost"].ToString()); 
+                    item.DateTimeNow = DateTime.Parse(reader["DateTime"].ToString());
+                    ItemsList.Add(item);
+                }
+               
+                _connection.Close();
+            }
+            return ItemsList;
         }
 
         public void AddNewCostToItem()

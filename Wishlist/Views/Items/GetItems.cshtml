@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "GetItems";
+    var list = ViewBag.ListItems;
+}
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<div class="row">
+
+    @foreach (var item in list)
+    {
+        <div class="col-sm-9"><a href="@item.Url">@item.Title</a></div>
+      
+        <div class="dropdown col-sm-3">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Prise and date
+            </button>
+            <ul class="dropdown-menu">
+                <li>Prise: @item.Cost Date:@item.DateTimeNow</li>
+            </ul>
+        </div>
+    }
+</div>
+

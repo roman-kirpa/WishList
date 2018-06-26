@@ -1,31 +1,22 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<link href="~/css/menu.css" rel="stylesheet" />
-<div class="form-group">
-    <label for="name" class="col-sm-2 control-label">enter URL</label>
-    <div class="col-sm-10">
-        <input style="padding:10px;margin:10px;" type="text" class="test" id="inputForm" name="name" placeholder="" value="" onkeydown="SetToDB(this)" />
-    </div>
-    <div class="row">
-        @for (int i = 1; i <= 10; i++)
-        {
-            <div class="col-sm-3">test column</div>
-            <div class="col-sm-6">test column</div>
-            <div class="col-sm-3">test column</div>
-        }
 
-    </div>
+
+<div class="form-group">
+    <label for="inputUrl">Enter address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter url" onkeydown="SetToDB(this)">
+    <small id="emailHelp" class="form-text text-muted">enter adrees here to save this item to wish list.</small>
 </div>
 
+@{Html.RenderAction("GetItems", "Items", new { nameUser = ViewBag.UserName}); }
 
 <script>
     function SetToDB(element) {
         debugger;
         if (event.key === 'Enter') {
             var val = element.value;
-            window.location.href = '@Url.Action("Set", "SetItem")'+'?url=' + val;
+            window.location.href = '@Url.Action("Set", "Items")'+'?url=' + val;
         }
     }
-
 </script>

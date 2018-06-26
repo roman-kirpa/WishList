@@ -1,32 +1,23 @@
-﻿using CsQuery;
-using DBSupport;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Security.Principal;
-using System.Text.RegularExpressions;
-using System.Web;
+﻿using DBSupport;
+using System.Configuration;
 using System.Web.Mvc;
-using Wishlist.Interfaces;
 using Wishlist.Services;
-using Wishlist.Services.SIteParsers;
 
 namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
         private DBWorker db;
-        private string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public ActionResult Index()
         {
             db = new DBWorker(connectionString);
             if (User.Identity.IsAuthenticated)
             {
-                db.SetUserIfNotExist(UserIdentityParser.GetLogin(User.Identity));
+                var name = UserIdentityParser.GetLogin(User.Identity);
+                db.SetUserIfNotExist(name);
+                ViewBag.UserName = name;
                 return View();
             }
             else
