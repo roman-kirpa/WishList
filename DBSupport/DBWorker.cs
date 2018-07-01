@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using DBSupport.entities;
+using Wishlist.Services;
 
 namespace DBSupport
 {
@@ -13,6 +15,7 @@ namespace DBSupport
     {
         private SqlConnection _connection;
         private SqlCommand _command;
+        private ItemsParser _itemPraser = new ItemsParser();
 
         public DBWorker(string connectionString)
         {
@@ -23,7 +26,7 @@ namespace DBSupport
         {
             using (_connection)
             {
-                _connection.OpenAsync();
+                _connection.Open();
                 _command = new SqlCommand("dbo.spSetUserIfNotExist", _connection);
                 _command.CommandType = CommandType.StoredProcedure;
                 _command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 0, "Name"));
@@ -33,11 +36,11 @@ namespace DBSupport
             }
         }
 
-        public void SetItem(Item item)
+        public void SetItem(ItemDTO item)
         {
             using (_connection)
             {
-                _connection.OpenAsync();
+                _connection.Open();
                 _command = new SqlCommand("dbo.spSetNewItem", _connection);
                 _command.CommandType = CommandType.StoredProcedure;
                 _command.Parameters.Add(new SqlParameter("@NameUser", SqlDbType.NVarChar, 0, "NameUser")).Value = item.UserName;
@@ -52,10 +55,14 @@ namespace DBSupport
 
         public List<Item> GetItems(string nameUser)
         {
-            List<Item> ItemsList = new List<Item>();
-            Item item;
+            List<ItemDTO> ItemsList = new List<ItemDTO>();
+            ItemDTO itemDTO;
+            List<Item> items;
+
             using (_connection)
             {
+                _connection.Open();
+
                 _command = new SqlCommand("dbo.spSelectAllItemsUser", _connection);
                 _command.CommandType = CommandType.StoredProcedure;
                 SqlParameter idParam = new SqlParameter
@@ -65,24 +72,24 @@ namespace DBSupport
                 };
                 _command.Parameters.Add(idParam).Value = nameUser;
 
-                _connection.Open();
-
                 SqlDataReader reader = _command.ExecuteReader();
-
+                
                 while (reader.Read())
                 {
-                    item = new Item();
-                    item.Url = reader["Url"].ToString();
-                    item.Title = reader["Title"].ToString();
-                    item.UserName = reader["Name"].ToString();
-                    item.Cost = decimal.Parse(reader["Cost"].ToString()); 
-                    item.DateTimeNow = DateTime.Parse(reader["DateTime"].ToString());
-                    ItemsList.Add(item);
+                    itemDTO = new ItemDTO();
+                    itemDTO.ItemId = int.Parse(reader["Id"].ToString());
+                    itemDTO.Url = reader["Url"].ToString();
+                    itemDTO.Title = reader["Title"].ToString();
+                    itemDTO.UserName = reader["Name"].ToString();
+                    itemDTO.Cost = decimal.Parse(reader["Cost"].ToString()); 
+                    itemDTO.DateTimeNow = DateTime.Parse(reader["DateTime"].ToString());
+                    ItemsList.Add(itemDTO);
                 }
-               
+
+                items = _itemPraser.ParseDTOItems(ItemsList); // maybe need move this logic to DB
                 _connection.Close();
             }
-            return ItemsList;
+            return items;
         }
 
         public void AddNewCostToItem()

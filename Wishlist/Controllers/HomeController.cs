@@ -7,12 +7,11 @@ namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
-        private DBWorker db;
         private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public ActionResult Index()
         {
-            db = new DBWorker(connectionString);
+            var db = new DBWorker(connectionString);
             if (User.Identity.IsAuthenticated)
             {
                 var name = UserIdentityParser.GetLogin(User.Identity);

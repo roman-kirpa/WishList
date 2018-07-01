@@ -203,9 +203,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\GetPage.cshtml" />
-    <Content Include="Views\Home\WrongUrl.cshtml" />
+    <Content Include="Views\Items\WrongUrl.cshtml" />
     <Content Include="Views\Home\ErrorWindowsAuthentication.cshtml" />
     <Content Include="Views\Items\GetItems.cshtml" />
+    <Content Include="Views\Items\DublicateItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

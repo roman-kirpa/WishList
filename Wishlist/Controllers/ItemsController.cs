@@ -1,6 +1,7 @@
 ﻿using DBSupport;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,12 +24,12 @@ namespace Wishlist.Controllers
                 var validUrl = pageService.ValidUrl(url);
                 if (!validUrl)
                 {
-                    return View("../Home/WrongUrl");
+                    return View("../Items/WrongUrl");
                 }
                 var html = pageService.GetPageHtml(url);
                 IPageParser parser = PageParserSetter.GerParser(url, html);
                 db = new DBWorker(connectionString);
-                var item = new Item()
+                var item = new ItemDTO()
                 {
                     UserName = UserIdentityParser.GetLogin(User.Identity),
                     DateTimeNow = DateTime.Now,
@@ -40,9 +41,17 @@ namespace Wishlist.Controllers
                 db.SetItem(item);
                 return View("../Home/Index");
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    return View("../Items/DublicateItem"); ;
+                }
+                else return View("../Items/WrongUrl");
+            }
             catch (Exception ex)
             {
-                return View("../Home/WrongUrl");
+                return View("../Items/WrongUrl");
             }
         }
 
