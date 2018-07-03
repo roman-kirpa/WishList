@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="container body-content">
+    <div class="container body-content" >
         @RenderBody()
     </div>
     @Scripts.Render("~/bundles/jquery")
@@ -16,3 +16,8 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<style>
+    body {
+        background-image: url(../style/scuffedstatic_red_1920x1234.jpg);
+    } 
+</style>

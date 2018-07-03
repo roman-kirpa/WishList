@@ -5,23 +5,23 @@
 }
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link href="~/style/Items.css" rel="stylesheet" />
 
 <div class="row">
 
     @foreach (var item in list)
     {
-        <div class="col-sm-9"><a href="@item.Url">@item.Title</a></div>
+        <div class="col-sm-9 field"><a href="@item.Url">@item.Title</a></div>
 
         <div class="dropdown col-sm-3">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                Prise and date
+            <button style="text-align:left" class="CostAndDate btn dropdown-toggle" type="button" data-toggle="dropdown">
+                Prise & date
             </button>
             <ul class="dropdown-menu">
                 @foreach (var costAndDate in item.CostDetails)
                 {
-                    <li>Prise: @costAndDate.Cost Date:@costAndDate.DateTimeNow</li>
+                    <li class="liField">Prise: @costAndDate.Cost Date:@costAndDate.DateTimeNow</li>
                 }
-
             </ul>
         </div>
     }
