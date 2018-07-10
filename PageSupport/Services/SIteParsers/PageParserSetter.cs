@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Wishlist.Interfaces;
+﻿using PageSupport.Interfaces;
 
-namespace Wishlist.Services.SIteParsers
+namespace PageSupport.SiteParsers
 {
     public static class PageParserSetter
     {

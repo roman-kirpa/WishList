@@ -3,6 +3,7 @@ using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,6 @@ namespace ItemsCheckerService
         {
             Task.Run(() => UrlsChaker());
         }
-        public void StartForDebug()
-        {
-            Task.Run(() => UrlsChaker());
-            Console.ReadLine();
-        }
 
         public void Stop()
         {
@@ -30,8 +26,8 @@ namespace ItemsCheckerService
         {
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             await scheduler.Start();
-
-            IJobDetail job = JobBuilder.Create<TestJob>().Build();
+            IJobDetail job = JobBuilder.Create<CostsCheck>().Build();
+         
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("trigger1", "group1")
@@ -41,7 +37,7 @@ namespace ItemsCheckerService
                 //.WithRepeatCount(4))
                 .RepeatForever())
                 .Build();
-
+            Debug.WriteLine("triger maked");
             await scheduler.ScheduleJob(job, trigger);
         }
     }

@@ -1,12 +1,10 @@
 ﻿using CsQuery;
-using System;
-using System.Collections.Generic;
+using PageSupport.Interfaces;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wishlist.Interfaces;
 
-namespace Wishlist.Services.SIteParsers
+namespace PageSupport.SiteParsers
 {
     public class PromUaParser : IPageParser
     {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace Wishlist.Services
+namespace PageSupport.Services
 {
     public class PageService
     {
@@ -39,22 +40,18 @@ namespace Wishlist.Services
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.AutomaticDecompression = DecompressionMethods.GZip;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                    if (response.StatusCode.ToString() == "OK")
-                    {
+                   
                         using (Stream stream = response.GetResponseStream())
                         using (StreamReader reader = new StreamReader(stream))
                         {
                             return reader.ReadToEnd();
                         }
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
+                   
             }
             catch(Exception ex)
             {
-                throw ex;
+                Debug.WriteLine(ex);
+                throw new NotImplementedException();
             }
                 
         }

@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DBSupport.entities
+namespace DBSupport
 {
-    public class Item
+  public  class Item
     {
-       // public string UserName { get; set; }
+        public int ItemId { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
-        public List<CostDetail> CostDetails { get; set; }
+        public decimal Cost { get; set; }
+        public DateTime DateTimeNow { get; set; }
     }
 }

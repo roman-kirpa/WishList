@@ -1,21 +1,26 @@
 ﻿using DBSupport;
+using DBSupport.Interfaces;
 using System.Configuration;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Wishlist.Services;
+
 
 namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-        public ActionResult Index()
+        private IDataBaseRepository _db;
+        public HomeController(IDataBaseRepository db)
         {
-            var db = new DBWorker(connectionString);
+            this._db = db;
+        }
+        public async Task<ActionResult> Index()
+        {
             if (User.Identity.IsAuthenticated)
             {
                 var name = UserIdentityParser.GetLogin(User.Identity);
-                db.SetUserIfNotExist(name);
+               await  _db.SetUserIfNotExist(name);
                 ViewBag.UserName = name;
                 return View();
             }

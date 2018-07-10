@@ -15,8 +15,8 @@ namespace ItemsCheckerService
             if (Environment.UserInteractive) // debug
             {
                 Service myService = new Service();
-                myService.StartForDebug();
-
+                myService.Start();
+                Console.ReadLine();
             }
             else // release
             {

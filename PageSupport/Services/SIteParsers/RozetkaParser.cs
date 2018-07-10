@@ -1,17 +1,14 @@
 ﻿using CsQuery;
-using System;
-using System.Collections.Generic;
+using PageSupport.Interfaces;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wishlist.Interfaces;
 
-namespace Wishlist.Services
+namespace PageSupport.SiteParsers
 {
     public class RozetkaParser : IPageParser
     {
         private CQ htmlObjects;
-        // "https://rozetka.com.ua/apple_iphone_x_64gb_silver/p22726294/";
         public RozetkaParser(string html)
         {
             htmlObjects = CQ.Create(html);

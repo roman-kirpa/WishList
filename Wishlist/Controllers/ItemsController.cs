@@ -1,26 +1,30 @@
 ﻿using DBSupport;
+using DBSupport.Interfaces;
+using PageSupport.Interfaces;
+using PageSupport.Services;
+using PageSupport.SiteParsers;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Wishlist.Interfaces;
 using Wishlist.Services;
-using Wishlist.Services.SIteParsers;
 
 namespace Wishlist.Controllers
 {
     public class ItemsController : Controller
     {
-        private PageService pageService = new PageService();
-        private DBWorker db;
-        private string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private IDataBaseRepository _db;
 
-        public ActionResult Set(string url)
+        public ItemsController(IDataBaseRepository db)
+        {
+            this._db = db;
+        }
+
+        public async Task<ActionResult> Set(string url)
         {
             try
             {
+                var pageService = new PageService();
                 var validUrl = pageService.ValidUrl(url);
                 if (!validUrl)
                 {
@@ -28,8 +32,8 @@ namespace Wishlist.Controllers
                 }
                 var html = pageService.GetPageHtml(url);
                 IPageParser parser = PageParserSetter.GerParser(url, html);
-                db = new DBWorker(connectionString);
-                var item = new ItemDTO()
+            
+                var item = new Item()
                 {
                     UserName = UserIdentityParser.GetLogin(User.Identity),
                     DateTimeNow = DateTime.Now,
@@ -38,7 +42,7 @@ namespace Wishlist.Controllers
                     Url = url
                 };
 
-                db.SetItem(item);
+               await  _db.SetItem(item);
                 return View("../Home/Index");
             }
             catch (SqlException ex)
@@ -55,11 +59,12 @@ namespace Wishlist.Controllers
             }
         }
 
-        public ActionResult GetItems(string nameUser)
+        public async Task<ActionResult> GetItems(string nameUser)
         {
-            db = new DBWorker(connectionString);
-            var list = db.GetItems(nameUser);
-            ViewBag.ListItems = list;
+            var _itemPraser = new ItemsParser();
+            var list = await _db.GetItemsByUser(nameUser);
+            var listDTO =  _itemPraser.ParseDTOItems(list);
+            ViewBag.ListItems = listDTO;
             return View();
         }
     }

@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBWorker.cs" />
+    <Compile Include="SQLRepository.cs" />
     <Compile Include="entities\CostDetail.cs" />
-    <Compile Include="entities\ItemDTO.cs" />
     <Compile Include="entities\Item.cs" />
+    <Compile Include="entities\ItemDTO.cs" />
+    <Compile Include="Interfaces\IDataBaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ItemsParser.cs" />
   </ItemGroup>
