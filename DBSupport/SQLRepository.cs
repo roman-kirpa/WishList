@@ -61,7 +61,17 @@ namespace DBSupport
 
         public async Task AddNewCostToItem(int idItem, decimal Cost)
         {
-            throw new NotImplementedException();
+            using (_connection)
+            {
+                await _connection.OpenAsync();
+                _command = new SqlCommand("dbo.spAddNewCost", _connection);
+                _command.CommandType = CommandType.StoredProcedure;
+                _command.Parameters.Add(new SqlParameter("@Cost", SqlDbType.Float, 0, "Cost")).Value = Cost;
+                _command.Parameters.Add(new SqlParameter("@DateTime", SqlDbType.DateTime, 0, "DateTIme")).Value = DateTime.Now;
+                _command.Parameters.Add(new SqlParameter("@Item_Id", SqlDbType.Float, 0, "Cost")).Value = idItem;
+                _command.ExecuteNonQuery();
+                _connection.Close();
+            }
         }
 
         private async Task<List<Item>> GetListItemsAsync(string procedureName, string userName)

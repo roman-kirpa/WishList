@@ -14,7 +14,6 @@ namespace Wishlist.Controllers
     public class ItemsController : Controller
     {
         private IDataBaseRepository _db;
-
         public ItemsController(IDataBaseRepository db)
         {
             this._db = db;
@@ -59,10 +58,11 @@ namespace Wishlist.Controllers
             }
         }
 
-        public async Task<ActionResult> GetItems(string nameUser)
+        public async Task<ActionResult> GetItems()
         {
+            var name = UserIdentityParser.GetLogin(User.Identity);
             var _itemPraser = new ItemsParser();
-            var list = await _db.GetItemsByUser(nameUser);
+            var list = await _db.GetItemsByUser(name);
             var listDTO =  _itemPraser.ParseDTOItems(list);
             ViewBag.ListItems = listDTO;
             return View();

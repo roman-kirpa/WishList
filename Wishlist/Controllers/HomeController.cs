@@ -20,8 +20,7 @@ namespace Wishlist.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var name = UserIdentityParser.GetLogin(User.Identity);
-               await  _db.SetUserIfNotExist(name);
-                ViewBag.UserName = name;
+                await _db.SetUserIfNotExist(name);
                 return View();
             }
             else

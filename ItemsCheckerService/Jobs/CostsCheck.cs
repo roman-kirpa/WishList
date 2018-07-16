@@ -24,23 +24,20 @@ namespace ItemsCheckerService.Jobs
             var dBWorker = new SQLRepository(connectionString);
             var items = await dBWorker.GetItems();
             var listAllItems = _itemPraser.ParseDTOItems(items);
-            var listForUpdateItems = new List<ItemDTO>();
-
+            
             foreach (var item in listAllItems)
             {
                 Task.Run(() =>
-                 {
-                     Debug.WriteLine(item.Title);
-                     var html = pageService.GetPageHtml(item.Url);
-                     IPageParser parser = PageParserSetter.GerParser(item.Url, html);
-                     var price = Convert.ToDecimal(parser.GetCost());
-                     if (price != item.CostDetails.FirstOrDefault().Cost)
-                     {
-                         dBWorker.AddNewCostToItem(item.Id, price);
-                     }
-                 });
-                Task.WaitAll();
-            }
+                {
+                    var html = pageService.GetPageHtml(item.Url);
+                    IPageParser parser = PageParserSetter.GerParser(item.Url, html);
+                    var price = Convert.ToDecimal(parser.GetCost());
+                    if (price != item.CostDetails.FirstOrDefault().Cost)
+                    {
+                        dBWorker.AddNewCostToItem(item.Id, price);
+                    }
+                });
+            }           
         }
     }
 }
