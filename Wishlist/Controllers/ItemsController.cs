@@ -18,7 +18,7 @@ namespace Wishlist.Controllers
         {
             this._db = db;
         }
-
+        [HttpGet]
         public async Task<ActionResult> Set(string url)
         {
             try
@@ -42,7 +42,7 @@ namespace Wishlist.Controllers
                 };
 
                await  _db.SetItem(item);
-                return View("../Home/Index");
+               return View("../Home/Index");
             }
             catch (SqlException ex)
             {
