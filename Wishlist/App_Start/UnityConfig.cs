@@ -45,8 +45,9 @@ namespace Wishlist
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<SQLRepository>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
-            container.RegisterType<IDataBaseRepository, SQLRepository>();
+          //  container.RegisterType<SQLRepository>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
+            container.RegisterType<IUserItemsRepository, UserItemsRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
         }
     }
 }

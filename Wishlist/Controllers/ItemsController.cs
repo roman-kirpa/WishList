@@ -1,5 +1,6 @@
 ﻿using DBSupport;
 using DBSupport.Interfaces;
+using PageSupport.CustomExceptions;
 using PageSupport.Interfaces;
 using PageSupport.Services;
 using PageSupport.SiteParsers;
@@ -13,36 +14,47 @@ namespace Wishlist.Controllers
 {
     public class ItemsController : Controller
     {
-        private IDataBaseRepository _db;
-        public ItemsController(IDataBaseRepository db)
+        private IUserItemsRepository _db;
+
+        public ItemsController(IUserItemsRepository db)
         {
             this._db = db;
         }
+
         [HttpGet]
         public async Task<ActionResult> Set(string url)
         {
             try
             {
                 var pageService = new PageService();
-                var validUrl = pageService.ValidUrl(url);
+                var validUrl = pageService.IsUrlValid(url);
                 if (!validUrl)
                 {
                     return View("../Items/WrongUrl");
                 }
                 var html = pageService.GetPageHtml(url);
-                IPageParser parser = PageParserSetter.GerParser(url, html);
-            
-                var item = new Item()
-                {
-                    UserName = UserIdentityParser.GetLogin(User.Identity),
-                    DateTimeNow = DateTime.Now,
-                    Title = parser.GetTitle(),
-                    Cost = System.Convert.ToDecimal(parser.GetCost()),
-                    Url = url
-                };
 
-               await  _db.SetItem(item);
-               return View("../Home/Index");
+                try
+                {
+                    IPageParser parser = PageParserSetter.GerParser(url, html);
+
+                    var item = new Item()
+                    {
+                        UserName = UserIdentityParser.GetLogin(User.Identity),
+                        DateTimeNow = DateTime.Now,
+                        Title = parser.GetTitle(),
+                        Cost = System.Convert.ToDecimal(parser.GetCost()),
+                        Url = url
+                    };
+
+                    await _db.SetItem(item);
+                    return View("../Home/Index");
+                }
+                catch (SiteNotSupprted ex)
+                {
+                    return View("../Home/Index");
+                }
+                
             }
             catch (SqlException ex)
             {
@@ -62,7 +74,7 @@ namespace Wishlist.Controllers
         {
             var name = UserIdentityParser.GetLogin(User.Identity);
             var _itemPraser = new ItemsParser();
-            var list = await _db.GetItemsByUser(name);
+            var list = await _db.GetItemsByUserName(name);
             var listDTO =  _itemPraser.ParseDTOItems(list);
             ViewBag.ListItems = listDTO;
             return View();

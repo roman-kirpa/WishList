@@ -3,6 +3,7 @@ using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace ItemsCheckerService
     {
         public void Start()
         {
-            Task.Run(() => UrlsChaker());
+            Task.Run(() => UrlsChecker());
         }
 
         public void Stop()
@@ -22,22 +23,28 @@ namespace ItemsCheckerService
 
         }
 
-        private async void UrlsChaker()
+        private async void UrlsChecker()
         {
+            int interval;
+
+            if (!int.TryParse(ConfigurationManager.AppSettings["Interval"], out interval))
+            {
+                throw new InvalidOperationException("Invalid interval in web.config");
+            }
+
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             await scheduler.Start();
             IJobDetail job = JobBuilder.Create<CostsCheck>().Build();
          
 
             ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("trigger1", "group1")
+                .WithIdentity("trigger", "group")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                .WithIntervalInSeconds(10)
+                .WithIntervalInSeconds(interval)
                 //.WithRepeatCount(4))
                 .RepeatForever())
                 .Build();
-            Debug.WriteLine("triger maked");
             await scheduler.ScheduleJob(job, trigger);
         }
     }

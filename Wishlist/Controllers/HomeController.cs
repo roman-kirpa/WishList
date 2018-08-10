@@ -10,8 +10,8 @@ namespace Wishlist.Controllers
 {
     public class HomeController : Controller
     {
-        private IDataBaseRepository _db;
-        public HomeController(IDataBaseRepository db)
+        private IUserRepository _db;
+        public HomeController(IUserRepository db)
         {
             this._db = db;
         }

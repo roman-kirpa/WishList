@@ -6,7 +6,7 @@ namespace PageSupport.SiteParsers
     {
         public static IPageParser GerParser(string url, string html)
         {
-            if (url.Contains("prom.ua"))
+            if (url.Contains("prom.ua/"))
             {
                 return new PromUaParser(html);
             }
@@ -14,7 +14,10 @@ namespace PageSupport.SiteParsers
             {
                 return new RozetkaParser(html);
             }
-            else return new DefaultParser();
+            else
+            {
+                return new DefaultParser(html);
+            }
         }
     }
 }

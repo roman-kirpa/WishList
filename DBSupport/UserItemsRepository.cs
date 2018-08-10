@@ -1,45 +1,26 @@
-﻿using System;
+﻿using DBSupport.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using DBSupport.Interfaces;
 
 namespace DBSupport
 {
-    public class SQLRepository : IUserItemsRepository
+   public class UserItemsRepository : IUserItemsRepository
     {
-      //  private SqlConnection _connection;
-        private SqlCommand _command;
         private string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-        public SQLRepository()
-        {
-         //   _connection = new SqlConnection(connectionString);
-        }
-
-        //public async Task SetUserIfNotExist(string name)
-        //{
-        //    var _connection = new SqlConnection(_connectionString);
-        //    using (_connection)
-        //    {
-        //       await _connection.OpenAsync();
-        //        _command = new SqlCommand("dbo.spSetUserIfNotExist", _connection);
-        //        _command.CommandType = CommandType.StoredProcedure;
-        //        _command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 0, "Name"));
-        //        _command.Parameters[0].Value = name;
-        //        _command.ExecuteNonQuery();
-        //        _connection.Close();
-        //    }
-        //}
+        private SqlCommand _command;
 
         public async Task SetItem(Item item)
         {
             var _connection = new SqlConnection(_connectionString);
             using (_connection)
             {
-               await _connection.OpenAsync();
+                await _connection.OpenAsync();
                 _command = new SqlCommand("dbo.spSetNewItem", _connection);
                 _command.CommandType = CommandType.StoredProcedure;
                 _command.Parameters.Add(new SqlParameter("@NameUser", SqlDbType.NVarChar, 0, "NameUser")).Value = item.UserName;
@@ -87,7 +68,7 @@ namespace DBSupport
             var _connection = new SqlConnection(_connectionString);
             using (_connection)
             {
-               await _connection.OpenAsync();
+                await _connection.OpenAsync();
 
                 _command = new SqlCommand(procedureName, _connection);
                 _command.CommandType = CommandType.StoredProcedure;

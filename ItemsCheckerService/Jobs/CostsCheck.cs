@@ -16,12 +16,12 @@ namespace ItemsCheckerService.Jobs
 {
     public class CostsCheck : IJob
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+      //  private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         private PageService pageService = new PageService();
         private ItemsParser _itemPraser = new ItemsParser();
         public async Task Execute(IJobExecutionContext context)
         {
-            var dBWorker = new SQLRepository(connectionString);
+            var dBWorker = new SQLRepository();
             var items = await dBWorker.GetItems();
             var listAllItems = _itemPraser.ParseDTOItems(items);
             

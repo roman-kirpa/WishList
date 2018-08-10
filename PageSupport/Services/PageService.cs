@@ -10,7 +10,7 @@ namespace PageSupport.Services
 {
     public class PageService
     {
-        public bool ValidUrl(string url)
+        public bool IsUrlValid(string url)
         {
             Uri validatedUri;
             bool result = false;
