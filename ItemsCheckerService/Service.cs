@@ -4,7 +4,7 @@ using Quartz.Impl;
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
-
+using SimpleLogger;
 namespace ProductUpdaterService
 {
     public class Service
@@ -17,7 +17,7 @@ namespace ProductUpdaterService
             }
             catch (Exception ex)
             {
-               SimpleLogger.Logger.Log(ex);
+               Logger.Log(ex);
             }
         }
 

@@ -3,6 +3,7 @@ using PageSupport.Interfaces;
 using PageSupport.Services;
 using PageSupport.SiteParsers;
 using Quartz;
+using SimpleLogger;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,13 +32,13 @@ namespace ProductUpdaterService.Jobs
                         var price = Convert.ToDecimal(parser.GetCost());
                         if (price != item.PriceDetails.FirstOrDefault().Price)
                         {
-                            repo.AddNewCostToItem(item.Id, price); // todo R.K.  cath exception and log them
+                            repo.AddNewCostToItem(item.Id, price); 
                         }
                     });
                 }
                 catch (Exception ex)
                 {
-                    await SimpleLogger.Logger.Log(ex);
+                    await Logger.Log(ex);
                 }
             }
         }

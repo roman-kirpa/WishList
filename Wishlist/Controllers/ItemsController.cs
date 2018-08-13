@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Wishlist.Services;
+using SimpleLogger;
 
 namespace Wishlist.Controllers
 {
@@ -72,7 +73,7 @@ namespace Wishlist.Controllers
             }
             catch (Exception ex)
             {
-                await SimpleLogger.Logger.Log(ex);
+                await Logger.Log(ex);
                 return View("../Items/WrongUrl");
             }
         }
