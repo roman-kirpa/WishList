@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wishlist", "Wishlist\Wishli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSupport", "DBSupport\DBSupport.csproj", "{C961A4D4-EC49-47A0-A0BE-6230E4B91294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsCheckerService", "ItemsCheckerService\ItemsCheckerService.csproj", "{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductUpdaterService", "ItemsCheckerService\ProductUpdaterService.csproj", "{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageSupport", "PageSupport\PageSupport.csproj", "{881E6495-8D58-4087-A31F-3A4D3551B793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PageSupport", "PageSupport\PageSupport.csproj", "{881E6495-8D58-4087-A31F-3A4D3551B793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

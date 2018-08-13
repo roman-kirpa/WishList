@@ -5,7 +5,6 @@ namespace DBSupport.Interfaces
 {
     public interface IUserRepository
     {
-        Task SetUserIfNotExist(string name);
-        //Task<List<Item>> GetItemsByUserName(string userName);
+        Task SetUserIfNotExist(string userName);
     }
 }

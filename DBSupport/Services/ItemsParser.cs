@@ -7,17 +7,17 @@ namespace Wishlist.Services
 {
     public class ItemsParser
     {
-        public List<ItemDTO> ParseDTOItems(List<Item> itemsDTO)
+        public List<ProductDTO> ParseDTOItems(List<Product> itemsDTO)
         {
             var items = itemsDTO.GroupBy(_ => _.ItemId).
-                Select(x => new ItemDTO
+                Select(x => new ProductDTO
                 {
                    Id = x.First().ItemId,
                    Title = x.First().Title,
                    Url = x.First().Url,
-                   CostDetails = x.Select(y => new CostDetail
+                   PriceDetails = x.Select(y => new PriceDetail
                    {
-                       Cost = y.Cost,
+                       Price = y.Cost,
                        DateTimeNow = y.DateTimeNow
                    }).OrderByDescending(s => s.DateTimeNow).ToList()
                 }).ToList();

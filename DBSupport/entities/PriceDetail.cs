@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DBSupport.entities
 {
-   public class CostDetail
+   public class PriceDetail
     {
-        public decimal Cost { get; set; }
+        public decimal Price { get; set; }
         public DateTime DateTimeNow { get; set; }
     }
 }

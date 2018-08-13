@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using Topshelf;
 
-namespace ItemsCheckerService
+namespace ProductUpdaterService
 {
     static class Program
     {
         static void Main()
         {
-            if (Environment.UserInteractive) // debug
-            {
+         #if DEBUG 
+           
                 Service myService = new Service();
                 myService.Start();
                 Console.ReadLine();
-            }
-            else // release
-            {
-                HostFactory.Run(configure =>
+          
+         #else
+            
+            HostFactory.Run(configure =>
                 {
                     configure.Service<Service>(service =>
                     {
@@ -34,7 +29,8 @@ namespace ItemsCheckerService
                     configure.SetDisplayName("UrlCheckService");
                     configure.SetDescription("service for check all urls");
                 });
-            }
+         #endif
+           
         }
     }
 }

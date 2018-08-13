@@ -38,7 +38,7 @@ namespace Wishlist.Controllers
                 {
                     IPageParser parser = PageParserSetter.GerParser(url, html);
 
-                    var item = new Item()
+                    var item = new Product()
                     {
                         UserName = UserIdentityParser.GetLogin(User.Identity),
                         DateTimeNow = DateTime.Now,
@@ -47,12 +47,18 @@ namespace Wishlist.Controllers
                         Url = url
                     };
 
-                    await _db.SetItem(item);
-                    return View("../Home/Index");
+                    if (await _db.SetItem(item)) {
+                        return View("../Home/Index");
+                    }
+                    else
+                    {
+                        return View("../Items/NotSupportedSite");
+                    }
+                   
                 }
                 catch (SiteNotSupprted ex)
                 {
-                    return View("../Home/Index");
+                    return View("../Items/NotSupportedSite");
                 }
                 
             }

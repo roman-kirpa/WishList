@@ -5,9 +5,9 @@ namespace DBSupport.Interfaces
 {
     public interface IUserItemsRepository
     {
-        Task SetItem(Item item);
-        Task<List<Item>> GetItems();
-        Task AddNewCostToItem(int idItem, decimal Cost);
-        Task<List<Item>> GetItemsByUserName(string userName);
+        Task<bool> SetItem(Product item);
+        Task<bool> AddNewCostToItem(int idItem, decimal Cost);
+        Task<List<Product>> GetItems();
+        Task<List<Product>> GetItemsByUserName(string userName);
     }
 }

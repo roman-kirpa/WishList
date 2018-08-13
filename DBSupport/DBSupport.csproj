@@ -42,10 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IUserRepository.cs" />
-    <Compile Include="SQLRepository.cs" />
-    <Compile Include="entities\CostDetail.cs" />
-    <Compile Include="entities\Item.cs" />
-    <Compile Include="entities\ItemDTO.cs" />
+    <Compile Include="entities\PriceDetail.cs" />
+    <Compile Include="entities\Product.cs" />
+    <Compile Include="entities\ProductDTO.cs" />
     <Compile Include="Interfaces\IUserItemsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ItemsParser.cs" />

@@ -1,29 +1,31 @@
-﻿using ItemsCheckerService.Jobs;
+﻿using ProductUpdaterService.Jobs;
 using Quartz;
 using Quartz.Impl;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ItemsCheckerService
+namespace ProductUpdaterService
 {
-  public class Service
+    public class Service
     {
         public void Start()
         {
-            Task.Run(() => UrlsChecker());
+            try
+            {
+                Task.Run(() => PriceChecker()); // todo cath exception
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void Stop()
         {
-
         }
 
-        private async void UrlsChecker()
+        private async void PriceChecker()
         {
             int interval;
 
@@ -34,15 +36,14 @@ namespace ItemsCheckerService
 
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             await scheduler.Start();
-            IJobDetail job = JobBuilder.Create<CostsCheck>().Build();
+            IJobDetail job = JobBuilder.Create<PriceCheckJob>().Build();
          
 
             ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("trigger", "group")
+               // .WithIdentity("trigger", "group")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                .WithIntervalInSeconds(interval)
-                //.WithRepeatCount(4))
+                .WithIntervalInMinutes(interval)
                 .RepeatForever())
                 .Build();
             await scheduler.ScheduleJob(job, trigger);

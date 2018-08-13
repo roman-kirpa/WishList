@@ -1,40 +1,35 @@
 ﻿using DBSupport;
-using DBSupport.entities;
 using PageSupport.Interfaces;
 using PageSupport.Services;
 using PageSupport.SiteParsers;
 using Quartz;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Wishlist.Services;
 
-namespace ItemsCheckerService.Jobs
+namespace ProductUpdaterService.Jobs
 {
-    public class CostsCheck : IJob
+    public class PriceCheckJob : IJob
     {
-      //  private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        private PageService pageService = new PageService();
+        private PageService _pageService = new PageService();
         private ItemsParser _itemPraser = new ItemsParser();
         public async Task Execute(IJobExecutionContext context)
         {
-            var dBWorker = new SQLRepository();
-            var items = await dBWorker.GetItems();
+            var repo = new UserItemsRepository();
+            var items = await repo.GetItems();
             var listAllItems = _itemPraser.ParseDTOItems(items);
             
             foreach (var item in listAllItems)
             {
                 Task.Run(() =>
                 {
-                    var html = pageService.GetPageHtml(item.Url);
+                    var html = _pageService.GetPageHtml(item.Url);
                     IPageParser parser = PageParserSetter.GerParser(item.Url, html);
                     var price = Convert.ToDecimal(parser.GetCost());
-                    if (price != item.CostDetails.FirstOrDefault().Cost)
+                    if (price != item.PriceDetails.FirstOrDefault().Price)
                     {
-                        dBWorker.AddNewCostToItem(item.Id, price);
+                        repo.AddNewCostToItem(item.Id, price); // todo R.K.  cath exception and log them
                     }
                 });
             }           
