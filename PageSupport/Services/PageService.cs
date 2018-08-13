@@ -50,7 +50,7 @@ namespace PageSupport.Services
             }
             catch(Exception ex)
             {
-                Debug.WriteLine(ex);
+                SimpleLogger.Logger.Log(ex);
                 throw new NotImplementedException();
             }
                 

@@ -72,6 +72,7 @@ namespace Wishlist.Controllers
             }
             catch (Exception ex)
             {
+                await SimpleLogger.Logger.Log(ex);
                 return View("../Items/WrongUrl");
             }
         }

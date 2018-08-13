@@ -243,6 +243,10 @@
       <Project>{881e6495-8d58-4087-a31f-3a4d3551b793}</Project>
       <Name>PageSupport</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
+      <Project>{a11aae50-1768-41cd-b7dd-e01b8c5a46de}</Project>
+      <Name>SimpleLogger</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

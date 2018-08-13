@@ -17,7 +17,7 @@ namespace ProductUpdaterService
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+               SimpleLogger.Logger.Log(ex);
             }
         }
 

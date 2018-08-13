@@ -19,20 +19,27 @@ namespace ProductUpdaterService.Jobs
             var repo = new UserItemsRepository();
             var items = await repo.GetItems();
             var listAllItems = _itemPraser.ParseDTOItems(items);
-            
+
             foreach (var item in listAllItems)
             {
-                Task.Run(() =>
+                try
                 {
-                    var html = _pageService.GetPageHtml(item.Url);
-                    IPageParser parser = PageParserSetter.GerParser(item.Url, html);
-                    var price = Convert.ToDecimal(parser.GetCost());
-                    if (price != item.PriceDetails.FirstOrDefault().Price)
+                    Task.Run(() =>
                     {
-                        repo.AddNewCostToItem(item.Id, price); // todo R.K.  cath exception and log them
-                    }
-                });
-            }           
+                        var html = _pageService.GetPageHtml(item.Url);
+                        IPageParser parser = PageParserSetter.GerParser(item.Url, html);
+                        var price = Convert.ToDecimal(parser.GetCost());
+                        if (price != item.PriceDetails.FirstOrDefault().Price)
+                        {
+                            repo.AddNewCostToItem(item.Id, price); // todo R.K.  cath exception and log them
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    await SimpleLogger.Logger.Log(ex);
+                }
+            }
         }
     }
 }

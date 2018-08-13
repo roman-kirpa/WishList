@@ -8,4 +8,8 @@
     <PackageReference Include="CsQuery" Version="1.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj" />
+  </ItemGroup>
+
 </Project>
