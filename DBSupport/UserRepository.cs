@@ -12,16 +12,13 @@ namespace DBSupport
 
         public async Task SetUserIfNotExist(string userName)
         {
-            SqlCommand _command;
-            var _connection = new SqlConnection(_connectionString);
-
-            using (_connection)
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand("dbo.spSetUserIfNotExist", connection))
             {
-                await _connection.OpenAsync();
-                _command = new SqlCommand("dbo.spSetUserIfNotExist", _connection);
-                _command.CommandType = CommandType.StoredProcedure;
-                _command.Parameters.AddWithValue("@name", userName);
-                _command.ExecuteNonQuery();
+                await connection.OpenAsync();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@name", userName);
+                command.ExecuteNonQuery();
             }
         }
     }

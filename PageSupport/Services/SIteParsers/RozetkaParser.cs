@@ -16,7 +16,7 @@ namespace PageSupport.SiteParsers
 
         public string GetCost()
         {
-           return htmlObjects.Find("meta").Where(_ => _.HasAttribute("itemprop") && _.GetAttribute("itemprop") == "price").FirstOrDefault().GetAttribute("content");
+            return htmlObjects.Find("meta").Where(_ => _.HasAttribute("itemprop") && _.GetAttribute("itemprop") == "price").FirstOrDefault().GetAttribute("content");
         }
 
         public string GetTitle()

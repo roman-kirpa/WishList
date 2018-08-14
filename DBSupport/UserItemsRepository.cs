@@ -77,7 +77,7 @@ namespace DBSupport
                 }
 
                 SqlDataReader reader = _command.ExecuteReader();
-
+                
                 while (reader.Read())
                 {
                     listItems.Add(Product.CreateFromReader(reader));

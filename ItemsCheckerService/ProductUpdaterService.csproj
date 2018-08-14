@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>ItemsCheckerService</RootNamespace>
     <AssemblyName>ItemsCheckerService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -45,6 +45,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,7 +73,7 @@
       <Name>DBSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\PageSupport\PageSupport.csproj">
-      <Project>{881e6495-8d58-4087-a31f-3a4d3551b793}</Project>
+      <Project>{57047faf-3d60-46fc-a3d7-8dfedfc03140}</Project>
       <Name>PageSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">

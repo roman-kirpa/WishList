@@ -57,7 +57,7 @@ namespace Wishlist.Controllers
                     }
                    
                 }
-                catch (SiteNotSupprted ex)
+                catch (SiteNotSupported ex)
                 {
                     return View("../Items/NotSupportedSite");
                 }

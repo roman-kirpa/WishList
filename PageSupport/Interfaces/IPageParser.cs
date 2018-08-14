@@ -1,5 +1,4 @@
-﻿
-namespace PageSupport.Interfaces
+﻿namespace PageSupport.Interfaces
 {
     public interface IPageParser
     {

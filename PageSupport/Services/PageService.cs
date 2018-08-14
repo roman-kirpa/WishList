@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Web;
 
 namespace PageSupport.Services
 {
@@ -19,14 +15,14 @@ namespace PageSupport.Services
                 result = (validatedUri.Scheme == Uri.UriSchemeHttp || validatedUri.Scheme == Uri.UriSchemeHttps);
             }
             else return false;
-           
+
             WebRequest request = WebRequest.Create(url);
             try
             {
                 request.GetResponse();
                 result = true;
             }
-            catch 
+            catch
             {
                 result = false;
             }
@@ -40,20 +36,19 @@ namespace PageSupport.Services
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.AutomaticDecompression = DecompressionMethods.GZip;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                   
-                        using (Stream stream = response.GetResponseStream())
-                        using (StreamReader reader = new StreamReader(stream))
-                        {
-                            return reader.ReadToEnd();
-                        }
-                   
+
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SimpleLogger.Logger.Log(ex);
                 throw new NotImplementedException();
             }
-                
         }
     }
 }

@@ -19,6 +19,8 @@ namespace DBSupport
 
         public static Product CreateFromReader(SqlDataReader reader)
         {
+            //var stringOrdinal = reader.GetOrdinal("ItemId");
+            //reader.GetString(stringOrdinal);
             var product = new Product();
             product.ItemId = int.Parse(reader["ItemId"].ToString());
             product.UserId = int.Parse(reader["UserId"].ToString());
