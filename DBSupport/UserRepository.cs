@@ -17,8 +17,8 @@ namespace DBSupport
             {
                 await connection.OpenAsync();
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@name", userName);
-                command.ExecuteNonQuery();
+                command.Parameters.AddWithValue("name", userName);
+                await command.ExecuteNonQueryAsync();
             }
         }
     }

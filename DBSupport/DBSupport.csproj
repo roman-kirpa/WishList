@@ -50,6 +50,7 @@
     <Compile Include="entities\ProductDTO.cs" />
     <Compile Include="Interfaces\IUserItemsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandBuilderService.cs" />
     <Compile Include="Services\ItemsParser.cs" />
     <Compile Include="UserItemsRepository.cs" />
     <Compile Include="UserRepository.cs" />

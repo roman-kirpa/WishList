@@ -1,4 +1,5 @@
 ﻿using DBSupport.Interfaces;
+using DBSupport.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,23 +12,21 @@ namespace DBSupport
     public class UserItemsRepository : IUserItemsRepository
     {
         private string _connectionString = ConfigurationManager.ConnectionStrings["WishList"].ConnectionString;
-        private SqlCommand _command;
 
         public async Task<bool> SetItem(Product item)
         {
             bool result;
-            var _connection = new SqlConnection(_connectionString);
-            using (_connection)
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand("dbo.spSetNewItem", connection))
             {
-                await _connection.OpenAsync();
-                _command = new SqlCommand("dbo.spSetNewItem", _connection);
-                _command.CommandType = CommandType.StoredProcedure;
-                _command.Parameters.AddWithValue("@NameUser", item.UserName);
-                _command.Parameters.AddWithValue("@Title", item.Title);
-                _command.Parameters.AddWithValue("@Url", item.Url);
-                _command.Parameters.AddWithValue("@DateTime", item.DateTimeNow);
-                _command.Parameters.AddWithValue("@Cost", item.Cost);
-                result = await _command.ExecuteNonQueryAsync() > 0 ? true : false;
+                await connection.OpenAsync();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("NameUser", item.UserName);
+                command.Parameters.AddWithValue("Title", item.Title);
+                command.Parameters.AddWithValue("Url", item.Url);
+                command.Parameters.AddWithValue("DateTime", item.DateTimeNow);
+                command.Parameters.AddWithValue("Cost", item.Cost);
+                result = await command.ExecuteNonQueryAsync() > 0;
             }
             return result;
         }
@@ -37,54 +36,48 @@ namespace DBSupport
             var items = GetItemListAsync("dbo.spSelectAllItemsUser", nameUser);
             return items;
         }
+
         public Task<List<Product>> GetItems()
         {
-            var items = GetItemListAsync("dbo.spSelectAllItems", string.Empty);
+            var items = GetItemListAsync("dbo.spSelectAllItems");
             return items;
         }
 
         public async Task<bool> AddNewCostToItem(int idItem, decimal Cost)
         {
             bool result;
-            var _connection = new SqlConnection(_connectionString);
-            using (_connection)
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand("dbo.spAddNewCost", connection))
             {
-                await _connection.OpenAsync();
-                _command = new SqlCommand("dbo.spAddNewCost", _connection);
-                _command.CommandType = CommandType.StoredProcedure;
-                _command.Parameters.AddWithValue("@Cost", Cost);
-                _command.Parameters.AddWithValue("@DateTime", DateTime.Now);
-                _command.Parameters.AddWithValue("@Item_Id", idItem);
-                result = await _command.ExecuteNonQueryAsync() > 0 ? true : false;
+                await connection.OpenAsync();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("Cost", Cost);
+                command.Parameters.AddWithValue("DateTime", DateTime.Now);
+                command.Parameters.AddWithValue("Item_Id", idItem);
+                result = await command.ExecuteNonQueryAsync() > 0 ? true : false;
             }
             return result;
         }
 
-        private async Task<List<Product>> GetItemListAsync(string procedureName, string userName)
+        private async Task<List<Product>> GetItemListAsync(string procedureName, string userName = "")
         {
             List<Product> listItems = new List<Product>();
-
-            var _connection = new SqlConnection(_connectionString);
-            using (_connection)
+            var comandBuilder = new CommandBuilderService();
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(procedureName, connection))
             {
-                await _connection.OpenAsync();
+                await connection.OpenAsync();
 
-                _command = new SqlCommand(procedureName, _connection);
-                _command.CommandType = CommandType.StoredProcedure;
-                if (!string.IsNullOrEmpty(userName)) // to do R.K.  move this to busines logic
-                {
-                    _command.Parameters.AddWithValue("@Name", userName);
-                }
+                command.CommandType = CommandType.StoredProcedure;
+                comandBuilder.SetCommand(command, userName);
+                SqlDataReader reader = command.ExecuteReader();
 
-                SqlDataReader reader = _command.ExecuteReader();
-                
                 while (reader.Read())
                 {
                     listItems.Add(Product.CreateFromReader(reader));
                 }
             }
             return listItems;
-
         }
     }
 }

@@ -13,19 +13,15 @@ namespace SimpleLogger
     {
         public static async Task Log(Exception ex)
         {
-
-            var _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WishList"].ConnectionString);
-            SqlCommand _command;
-
-            using (_connection)
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WishList"].ConnectionString))
+            using (var command = new SqlCommand("dbo.spLogExceptions", connection))
             {
-                await _connection.OpenAsync();
-                _command = new SqlCommand("dbo.spLogExceptions", _connection);
-                _command.CommandType = CommandType.StoredProcedure;
-                _command.Parameters.AddWithValue("@Message", ex.Message);
-                _command.Parameters.AddWithValue("@StackTrace", ex.StackTrace);
-                _command.Parameters.AddWithValue("@DateTime", DateTime.UtcNow);
-                await _command.ExecuteNonQueryAsync();
+                await connection.OpenAsync();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Message", ex.Message);
+                command.Parameters.AddWithValue("@StackTrace", ex.StackTrace);
+                command.Parameters.AddWithValue("@DateTime", DateTime.UtcNow);
+                await command.ExecuteNonQueryAsync();
             }
         }
     }
