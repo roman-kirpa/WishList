@@ -9,19 +9,19 @@ namespace PageSupport.SiteParsers
 {
     public class DefaultParser : IPageParser
     {
-        private CQ htmlObjects;
+        private CQ _htmlObjects;
         public DefaultParser(string html)
         {
-            htmlObjects = CQ.Create(html);
+            _htmlObjects = CQ.Create(html);
         }
         public string GetCost()
         {
-            return htmlObjects.Find("font").Where(_ => _.ClassName == "price").FirstOrDefault().InnerText;
+            return _htmlObjects.Find("font").Where(_ => _.ClassName == "price").FirstOrDefault().InnerText;
         }
 
         public string GetTitle()
         {
-            var titleTag = htmlObjects.Find("H1").Where(_ => _.ClassName == "title").FirstOrDefault().InnerText;
+            var titleTag = _htmlObjects.Find("H1").Where(_ => _.ClassName == "title").FirstOrDefault().InnerText;
             var firstFilter = Regex.Replace(titleTag, @"<[^>]+>|&nbsp;", "").Trim();
             var secondFilter = Regex.Replace(firstFilter, @"\s{2,}", " ");
             return HttpUtility.HtmlDecode(secondFilter);

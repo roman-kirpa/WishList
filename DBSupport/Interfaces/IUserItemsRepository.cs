@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DBSupport.entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DBSupport.Interfaces
@@ -7,7 +8,7 @@ namespace DBSupport.Interfaces
     {
         Task<bool> SetItem(Product item);
         Task<bool> AddNewCostToItem(int idItem, decimal Cost);
-        Task<List<Product>> GetItems();
-        Task<List<Product>> GetItemsByUserName(string userName);
+        Task<List<ProductDTO>> GetItems();
+        Task<List<ProductDTO>> GetItemsByUserName(string userName);
     }
 }

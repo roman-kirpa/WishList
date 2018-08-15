@@ -1,4 +1,5 @@
-﻿using DBSupport.Interfaces;
+﻿using DBSupport.entities;
+using DBSupport.Interfaces;
 using DBSupport.Services;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Wishlist.Services;
 
 namespace DBSupport
 {
@@ -31,13 +33,13 @@ namespace DBSupport
             return result;
         }
 
-        public Task<List<Product>> GetItemsByUserName(string nameUser)
+        public Task<List<ProductDTO>> GetItemsByUserName(string nameUser)
         {
             var items = GetItemListAsync("dbo.spSelectAllItemsUser", nameUser);
             return items;
         }
 
-        public Task<List<Product>> GetItems()
+        public Task<List<ProductDTO>> GetItems()
         {
             var items = GetItemListAsync("dbo.spSelectAllItems");
             return items;
@@ -54,14 +56,15 @@ namespace DBSupport
                 command.Parameters.AddWithValue("Cost", Cost);
                 command.Parameters.AddWithValue("DateTime", DateTime.Now);
                 command.Parameters.AddWithValue("Item_Id", idItem);
-                result = await command.ExecuteNonQueryAsync() > 0 ? true : false;
+                result = await command.ExecuteNonQueryAsync() > 0;
             }
             return result;
         }
 
-        private async Task<List<Product>> GetItemListAsync(string procedureName, string userName = "")
+        private async Task<List<ProductDTO>> GetItemListAsync(string procedureName, string userName = "")
         {
-            List<Product> listItems = new List<Product>();
+            var listItems = new List<ProductDTO>();
+            var parser = new ItemsParser();
             var comandBuilder = new CommandBuilderService();
             using (var connection = new SqlConnection(_connectionString))
             using (var command = new SqlCommand(procedureName, connection))
@@ -72,10 +75,27 @@ namespace DBSupport
                 comandBuilder.SetCommand(command, userName);
                 SqlDataReader reader = command.ExecuteReader();
 
+                var listUsers = new List<UserEntity>();
+                var listProduct = new List<ProductEntity>();
+                var listCosts = new List<PriceEntity>();
                 while (reader.Read())
                 {
-                    listItems.Add(Product.CreateFromReader(reader));
+                   listUsers.Add(UserEntity.CreateFromReader(reader));
                 }
+                reader.NextResult();
+
+                while (reader.Read())
+                {
+                    listProduct.Add(ProductEntity.CreateFromReader(reader));
+                }
+                reader.NextResult();
+
+                while (reader.Read())
+                {
+                    listCosts.Add(PriceEntity.CreateFromReader(reader));
+                }
+                reader.NextResult();
+                listItems = parser.MakeDtoItemList(listUsers, listCosts, listProduct);
             }
             return listItems;
         }

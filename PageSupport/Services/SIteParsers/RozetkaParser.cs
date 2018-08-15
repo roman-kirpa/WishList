@@ -8,20 +8,20 @@ namespace PageSupport.SiteParsers
 {
     public class RozetkaParser : IPageParser
     {
-        private CQ htmlObjects;
+        private CQ _htmlObjects;
         public RozetkaParser(string html)
         {
-            htmlObjects = CQ.Create(html);
+            _htmlObjects = CQ.Create(html);
         }
 
         public string GetCost()
         {
-            return htmlObjects.Find("meta").Where(_ => _.HasAttribute("itemprop") && _.GetAttribute("itemprop") == "price").FirstOrDefault().GetAttribute("content");
+            return _htmlObjects.Find("meta").Where(_ => _.HasAttribute("itemprop") && _.GetAttribute("itemprop") == "price").FirstOrDefault().GetAttribute("content");
         }
 
         public string GetTitle()
         {
-            var titleTag = htmlObjects.Find("H1").Where(_ => _.ClassName == "detail-title").FirstOrDefault().InnerText;
+            var titleTag = _htmlObjects.Find("H1").Where(_ => _.ClassName == "detail-title").FirstOrDefault().InnerText;
             var firstFilter = Regex.Replace(titleTag, @"<[^>]+>|&nbsp;", "").Trim();
             var secondFilter = Regex.Replace(firstFilter, @"\s{2,}", " ");
             return HttpUtility.HtmlDecode(secondFilter);

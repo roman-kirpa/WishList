@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="entities\PriceEntity.cs" />
+    <Compile Include="entities\ProductEntity.cs" />
+    <Compile Include="entities\UserEntity.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="entities\PriceDetail.cs" />
     <Compile Include="entities\Product.cs" />
@@ -57,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
+      <Project>{a11aae50-1768-41cd-b7dd-e01b8c5a46de}</Project>
+      <Name>SimpleLogger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

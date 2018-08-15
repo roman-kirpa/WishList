@@ -83,8 +83,8 @@ namespace Wishlist.Controllers
             var name = UserIdentityParser.GetLogin(User.Identity);
             var _itemPraser = new ItemsParser();
             var list = await _db.GetItemsByUserName(name);
-            var listDTO =  _itemPraser.ParseDTOItems(list);
-            ViewBag.ListItems = listDTO;
+           // var listDTO =  _itemPraser.ParseDTOItems(list);
+            ViewBag.ListItems = list;
             return View();
         }
     }

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wishlist", "Wishlist\Wishli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSupport", "DBSupport\DBSupport.csproj", "{C961A4D4-EC49-47A0-A0BE-6230E4B91294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductUpdaterService", "ItemsCheckerService\ProductUpdaterService.csproj", "{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductUpdaterService", "ProductUpdaterService\ProductUpdaterService.csproj", "{2BE42E8E-5FDB-48D5-BA20-C661FEDC6204}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLogger", "SimpleLogger\SimpleLogger.csproj", "{A11AAE50-1768-41CD-B7DD-E01B8C5A46DE}"
 EndProject

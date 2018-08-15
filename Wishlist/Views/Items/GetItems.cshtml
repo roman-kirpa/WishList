@@ -11,11 +11,12 @@
 
     @foreach (var item in list)
     {
+        var first = item.PriceDetails;
         <div class="col-sm-9 field"><a href="@item.Url">@item.Title</a></div>
 
         <div class="dropdown col-sm-3">
-            <button style="text-align:left" class="CostAndDate btn dropdown-toggle" type="button" data-toggle="dropdown">
-                Prise & date
+            <button style="text-align:left; width:250px" class="CostAndDate btn dropdown-toggle" type="button" data-toggle="dropdown">
+               Actual price: @first[0].Price grn
             </button>
             <ul class="dropdown-menu">
                 @foreach (var costAndDate in item.PriceDetails)

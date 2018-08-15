@@ -8,5 +8,6 @@ namespace DBSupport.entities
         public string Url { get; set; }
         public string Title { get; set; }
         public List<PriceDetail> PriceDetails { get; set; }
+        public string Owner { get; set; }
     }
 }
