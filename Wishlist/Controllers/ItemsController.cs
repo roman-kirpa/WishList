@@ -35,33 +35,29 @@ namespace Wishlist.Controllers
                 }
                 var html = pageService.GetPageHtml(url);
 
-                try
+                IPageParser parser = PageParserSetter.GerParser(url, html);
+
+                var item = new EnterProductEntity()
                 {
-                    IPageParser parser = PageParserSetter.GerParser(url, html);
+                    UserName = UserIdentityParser.GetLogin(User.Identity),
+                    DateTimeNow = DateTime.Now,
+                    Title = parser.GetTitle(),
+                    Cost = System.Convert.ToDecimal(parser.GetCost()),
+                    Url = url
+                };
 
-                    var item = new EnterProductEntity()
-                    {
-                        UserName = UserIdentityParser.GetLogin(User.Identity),
-                        DateTimeNow = DateTime.Now,
-                        Title = parser.GetTitle(),
-                        Cost = System.Convert.ToDecimal(parser.GetCost()),
-                        Url = url
-                    };
-
-                    if (await _db.SetItem(item)) {
-                        return View("../Home/Index");
-                    }
-                    else
-                    {
-                        return View("../Items/NotSupportedSite");
-                    }
-                   
+                if (await _db.SetItem(item))
+                {
+                    return View("../Home/Index");
                 }
-                catch (SiteNotSupported ex)
+                else
                 {
                     return View("../Items/NotSupportedSite");
                 }
-                
+            }
+            catch (SiteNotSupported ex)
+            {
+                return View("../Items/NotSupportedSite");
             }
             catch (SqlException ex)
             {
@@ -83,7 +79,6 @@ namespace Wishlist.Controllers
             var name = UserIdentityParser.GetLogin(User.Identity);
             var _itemPraser = new ItemsParser();
             var list = await _db.GetItemsByUserName(name);
-           // var listDTO =  _itemPraser.ParseDTOItems(list);
             ViewBag.ListItems = list;
             return View();
         }

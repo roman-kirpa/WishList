@@ -3,15 +3,15 @@
 }
 <link href="~/style/HomePage.css" rel="stylesheet" />
 
-
 <text>Wish List</text>
 <div class="form-group" style="padding-top:50px;">
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter url" onkeydown="SetToDB(this)">
     <small id="emailHelp" class="form-text text-muted">enter adrees here to save this item to wish list.</small>
 </div>
-
+<div>
+    <h2 style="visibility:hidden">Done</h2>
+</div>
 @{Html.RenderAction("GetItems", "Items"); }
-
 <script>
     function SetToDB(element) {
         debugger;
