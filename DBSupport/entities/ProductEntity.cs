@@ -12,7 +12,7 @@ namespace DBSupport.entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
-        public int user_id { get; set; }
+        public int UserId { get; set; }
 
         public static ProductEntity CreateFromReader(SqlDataReader reader)
         {
@@ -20,7 +20,7 @@ namespace DBSupport.entities
             product.Id = reader.GetInt32(reader.GetOrdinal("Id")); 
             product.Title = reader.GetString(reader.GetOrdinal("Title"));
             product.Url = reader.GetString(reader.GetOrdinal("Url"));
-            product.user_id = reader.GetInt32(reader.GetOrdinal("user_id")); 
+            product.UserId = reader.GetInt32(reader.GetOrdinal("UserId")); 
             return product;
         }
     }

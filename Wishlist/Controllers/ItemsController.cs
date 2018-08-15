@@ -39,7 +39,7 @@ namespace Wishlist.Controllers
                 {
                     IPageParser parser = PageParserSetter.GerParser(url, html);
 
-                    var item = new Product()
+                    var item = new EnterProductEntity()
                     {
                         UserName = UserIdentityParser.GetLogin(User.Identity),
                         DateTimeNow = DateTime.Now,

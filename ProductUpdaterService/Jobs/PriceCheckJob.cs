@@ -17,7 +17,6 @@ namespace ProductUpdaterService.Jobs
     public class PriceCheckJob : IJob
     {
         private PageService _pageService = new PageService();
-        private ItemsParser _itemPraser = new ItemsParser();
         private readonly string _account = ConfigurationManager.AppSettings["account"];
         private readonly string _password = ConfigurationManager.AppSettings["password"];
 
@@ -25,7 +24,6 @@ namespace ProductUpdaterService.Jobs
         {
             var repo = new UserItemsRepository();
             var items = await repo.GetItems();
-            //var listAllItems = _itemPraser.ParseDTOItems(items);
 
             foreach (var item in items)
             {
@@ -39,7 +37,7 @@ namespace ProductUpdaterService.Jobs
                         if (price != item.PriceDetails.FirstOrDefault().Price)
                         {
                             repo.AddNewCostToItem(item.Id, price);
-                            SendMail(item.Owner, price, item.Title);
+                            SendMail(item.Owner, price, item.Title, item.Url);
                         }
                     });
                 }
@@ -50,10 +48,9 @@ namespace ProductUpdaterService.Jobs
             }
         }
 
-        private void SendMail(string userName, decimal newPrice, string Title)
+        private void SendMail(string userName, decimal newPrice, string Title, string Url)
         {
-            try
-            { 
+            
                 SmtpClient client = new SmtpClient();
                 client.Port = 587;
                 client.Host = "smtp.gmail.com";
@@ -62,17 +59,13 @@ namespace ProductUpdaterService.Jobs
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
                 client.Credentials = new System.Net.NetworkCredential(_account, _password);
-
-                MailMessage mm = new MailMessage(_account, userName + "@eleks.com", "Price updated", string.Format("Your product:{0} has new prise:{1}", Title, newPrice));
+                
+                MailMessage mm = new MailMessage(_account, userName + "@eleks.com", "Price updated", string.Format("Your product:{0} has new prise:{1}", "<html><head></head><body><div><a href=" + Url + ">" + Title + "</a></div></body></html>", newPrice));
                 mm.BodyEncoding = UTF8Encoding.UTF8;
+                mm.IsBodyHtml = true;
                 mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
                 client.Send(mm);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex);
-            }
         }
     }
 }

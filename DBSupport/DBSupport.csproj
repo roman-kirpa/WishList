@@ -49,7 +49,7 @@
     <Compile Include="entities\UserEntity.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="entities\PriceDetail.cs" />
-    <Compile Include="entities\Product.cs" />
+    <Compile Include="entities\EnterProductEntity.cs" />
     <Compile Include="entities\ProductDTO.cs" />
     <Compile Include="Interfaces\IUserItemsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

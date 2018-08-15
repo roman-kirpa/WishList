@@ -7,7 +7,7 @@ namespace Wishlist.Services
 {
     public class ItemsParser
     {
-        public List<ProductDTO> ParseDTOItems(List<Product> itemsDTO)
+        public List<ProductDTO> ParseDTOItems(List<EnterProductEntity> itemsDTO)
         {
             var items = itemsDTO.GroupBy(_ => _.ItemId).
                 Select(x => new ProductDTO
@@ -31,7 +31,7 @@ namespace Wishlist.Services
             var listProductDTO = new List<ProductDTO>();
             foreach (var user in listUsers)
             {
-                foreach (var product in listProduct.Where(_ => _.user_id == user.Id))
+                foreach (var product in listProduct.Where(_ => _.UserId == user.Id))
                 {
                     listProductDTO.Add(makeDTOItem(product, listCosts, user));
                 }
@@ -46,7 +46,7 @@ namespace Wishlist.Services
                 Id = product.Id,
                 Title = product.Title,
                 Url = product.Url,
-                PriceDetails = listCosts.Where(l => l.Item_Id == product.Id).Select(_ => new PriceDetail { Price = _.Price, DateTimeNow = _.DateTime }).OrderByDescending(s => s.DateTimeNow).ToList(),
+                PriceDetails = listCosts.Where(l => l.ItemId == product.Id).Select(_ => new PriceDetail { Price = _.Price, DateTimeNow = _.DateTime }).OrderByDescending(s => s.DateTimeNow).ToList(),
                 Owner = user.Name
             };
             return productDTO;

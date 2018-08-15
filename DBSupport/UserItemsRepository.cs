@@ -15,7 +15,7 @@ namespace DBSupport
     {
         private string _connectionString = ConfigurationManager.ConnectionStrings["WishList"].ConnectionString;
 
-        public async Task<bool> SetItem(Product item)
+        public async Task<bool> SetItem(EnterProductEntity item)
         {
             bool result;
             using (var connection = new SqlConnection(_connectionString))
@@ -55,7 +55,7 @@ namespace DBSupport
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("Cost", Cost);
                 command.Parameters.AddWithValue("DateTime", DateTime.Now);
-                command.Parameters.AddWithValue("Item_Id", idItem);
+                command.Parameters.AddWithValue("ItemId", idItem);
                 result = await command.ExecuteNonQueryAsync() > 0;
             }
             return result;

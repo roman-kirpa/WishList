@@ -12,7 +12,7 @@ namespace DBSupport.entities
     {
         public decimal Price { get; set; }
         public DateTime DateTime { get; set; }
-        public int Item_Id { get; set; }
+        public int ItemId { get; set; }
 
         public static PriceEntity CreateFromReader(SqlDataReader reader)
         {
@@ -20,7 +20,7 @@ namespace DBSupport.entities
                 var priseDetile = new PriceEntity();
                 priseDetile.Price = reader.GetDecimal(reader.GetOrdinal("Cost"));
                 priseDetile.DateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));
-                priseDetile.Item_Id = reader.GetInt32(reader.GetOrdinal("Item_Id"));
+                priseDetile.ItemId = reader.GetInt32(reader.GetOrdinal("ItemId"));
                 return priseDetile;
          
         }
