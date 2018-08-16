@@ -73,7 +73,7 @@ namespace Wishlist.Controllers
                 return View("../Items/WrongUrl");
             }
         }
-
+        [HttpGet]
         public async Task<ActionResult> GetItems()
         {
             var name = UserIdentityParser.GetLogin(User.Identity);
@@ -81,6 +81,21 @@ namespace Wishlist.Controllers
             var list = await _db.GetItemsByUserName(name);
             ViewBag.ListItems = list;
             return View();
+        }
+        [HttpGet]
+        public async Task<ActionResult> DeleteItems(int Id)
+        {
+            ViewResult view;
+            try
+            {
+                await _db.DeleteItem(Id);
+                return View("../Home/Index");
+            }
+           catch(Exception ex)
+            {
+                Logger.Log(ex);
+                return View("../Home/Index");
+            }
         }
     }
 }

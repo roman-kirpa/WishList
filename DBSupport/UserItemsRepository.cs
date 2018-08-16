@@ -33,6 +33,20 @@ namespace DBSupport
             return result;
         }
 
+        public async Task<bool> DeleteItem(int Id)
+        {
+            bool result;
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand("dbo.spDeleteProductAndPrice", connection))
+            {
+                await connection.OpenAsync();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("Id", Id);
+                result = await command.ExecuteNonQueryAsync() > 0;
+            }
+            return result;
+        }
+
         public Task<List<ProductDTO>> GetItemsByUserName(string nameUser)
         {
             var items = GetItemListAsync("dbo.spSelectAllItemsUser", nameUser);
@@ -80,7 +94,7 @@ namespace DBSupport
                 var listCosts = new List<PriceEntity>();
                 while (reader.Read())
                 {
-                   listUsers.Add(UserEntity.CreateFromReader(reader));
+                    listUsers.Add(UserEntity.CreateFromReader(reader));
                 }
                 reader.NextResult();
 
