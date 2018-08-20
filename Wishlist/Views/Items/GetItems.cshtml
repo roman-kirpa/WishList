@@ -13,10 +13,10 @@
     {
 
         var first = item.PriceDetails;
-        <div class="col-sm-8 field"><a href="@item.Url">@item.Title</a></div>
+        <div style="border-radius: 10px 10px 10px 10px;" class="col-sm-8 field"><a href="@item.Url">@item.Title</a></div>
 
         <div class="dropdown col-sm-3">
-            <button style="text-align:left; width:250px" class="CostAndDate btn dropdown-toggle" type="button" data-toggle="dropdown">
+            <button style="text-align:left; width:250px;border-radius: 10px 10px 10px 10px;" class="CostAndDate btn dropdown-toggle" type="button" data-toggle="dropdown">
                 Actual price: @first[0].Price grn
             </button>
             <ul class="dropdown-menu">
@@ -26,7 +26,7 @@
                 }
             </ul>
         </div>
-        <a class="btn icon-btn btn-danger" href="javascript:DeleteProduct(@item.Id)">
+        <a  style="margin-bottom: 5px; border-radius: 10px 10px 10px 10px;" class="btn icon-btn btn-danger" href="javascript:DeleteProduct(@item.Id)">
             <span class="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger" ></span>
             Delete
         </a>

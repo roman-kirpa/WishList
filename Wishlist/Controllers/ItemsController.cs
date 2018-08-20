@@ -21,7 +21,7 @@ namespace Wishlist.Controllers
         {
             this._db = db;
         }
-
+        [ValidateInput(false)]
         [HttpGet]
         public async Task<ActionResult> Set(string url)
         {

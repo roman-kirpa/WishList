@@ -200,6 +200,7 @@
     <Content Include="style\HomePage.css" />
     <Content Include="style\Items.css" />
     <Content Include="style\scuffedstatic_red_1920x1234.jpg" />
+    <Content Include="style\wish_list.gif" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
