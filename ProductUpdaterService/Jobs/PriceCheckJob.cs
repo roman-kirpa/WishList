@@ -29,15 +29,17 @@ namespace ProductUpdaterService.Jobs
             {
                 try
                 {
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
                         var html = _pageService.GetPageHtml(item.Url);
                         IPageParser parser = PageParserSetter.GerParser(item.Url, html);
                         var price = Convert.ToDecimal(parser.GetCost());
                         if (price != item.PriceDetails.FirstOrDefault().Price)
                         {
-                            repo.AddNewCostToItem(item.Id, price);
-                            SendMail(item.Owner, price, item.Title, item.Url);
+                            if (await repo.AddNewCostToItem(item.Id, price))
+                            {
+                                SendMail(item.Owner, price, item.Title, item.Url);
+                            };
                         }
                     });
                 }
